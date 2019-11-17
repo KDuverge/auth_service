@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken'),
   bcrypt = require('bcrypt'),
-  User = require('../model/user'),
-  { SECRET_KEY } = require('../config');
+  User = require('../model/user');
 
 const SALT_ROUNDS = 10;
 
@@ -27,7 +26,7 @@ async function createUser(req, res, next) {
     username: createdUser.username,
     isAdmin: createdUser.isAdmin
   };
-  const token = await jwt.sign(payload, SECRET_KEY);
+  const token = await jwt.sign(payload, process.env.SECRET_KEY);
 
   return res.status(203).json({
     message: 'POST /api/auth/register',
@@ -47,7 +46,7 @@ async function loginUser(req, res, next) {
       username: user.username,
       isAdmin: user.isAdmin
     };
-    const token = await jwt.sign(payload, SECRET_KEY);
+    const token = await jwt.sign(payload, process.env.SECRET_KEY);
 
     return res.status(200).json({
       message: 'POST /api/auth/login',
